@@ -165,6 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function pagarCarrito(){
         alert('Muchas gracias por su compra.')
+        carrito = [];
+        renderizarCarrito();
+        localStorage.clear();
 
     }
 
