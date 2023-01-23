@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "nombre": "Cafe Latte",
+        "precio": 300,
+        "imagen": "/img/latte.jpg"
+    },
+    {
+        "id": 2,
+        "nombre": "Mocca",
+        "precio": 300,
+        "imagen": "/img/moccha.jpg"
+    },
+    {
+        "id": 3,
+        "nombre": "Americano",
+        "precio": 300,
+        "imagen": "/img/americano.jpg"
+    },
+    {
+        "id": 4,
+        "nombre": "Cappuccino",
+        "precio": 300,
+        "imagen": "/img/cappuccino.jpg"
+    },
+    {
+        "id": 5,
+        "nombre": "Espresso",
+        "precio": 300,
+        "imagen": "/img/espresso.jpg"
+    },
+    {
+        "id": 6,
+        "nombre": "Cafe con leche",
+        "precio": 300,
+        "imagen": "/img/cafelatte.jpg"
+    }
+]

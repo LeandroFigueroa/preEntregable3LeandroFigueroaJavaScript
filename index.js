@@ -1,44 +1,7 @@
 // Base de datos //
+var baseDeDatos = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Mis variables de stock
-
-    const baseDeDatos = [
-        {
-            id: 1,
-            nombre: 'Cafe Latte',
-            precio: 300,
-            imagen: '/img/latte.jpg'
-        },
-        {
-            id: 2,
-            nombre: 'Mocca',
-            precio: 350,
-            imagen: '/img/moccha.jpg'
-        }, {
-            id: 3,
-            nombre: 'Americano',
-            precio: 200,
-            imagen: '/img/americano.jpg'
-        }, {
-            id: 4,
-            nombre: 'Cappuccino',
-            precio: 450,
-            imagen: '/img/cappuccino.jpg'
-        }, {
-            id: 5,
-            nombre: 'Espresso',
-            precio: 200,
-            imagen: '/img/espresso.jpg'
-        }, {
-            id: 6,
-            nombre: 'Cafe con leche',
-            precio: 450,
-            imagen: '/img/cafelatte.jpg'
-        },
-
-    ];
     //  variables DOM
 
     let carrito = [];
@@ -162,20 +125,27 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.clear();
     }
 
-    
-    function pagarCarrito(){
-        alert('Muchas gracias por su compra.')
+
+    function pagarCarrito() {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Gracias por elegirnos',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
         carrito = [];
         renderizarCarrito();
         localStorage.clear();
 
     }
 
-    function guardarCarritoLS () {
+    function guardarCarritoLS() {
         miLocalStorage.setItem('carrito', JSON.stringify(carrito));
     }
 
-    function cargaCarritoLS () {
+    function cargaCarritoLS() {
         if (miLocalStorage.getItem('carrito') !== null) {
             carrito = JSON.parse(miLocalStorage.getItem('carrito'));
         }
@@ -185,10 +155,20 @@ document.addEventListener('DOMContentLoaded', () => {
     DOMbotonVaciar.addEventListener('click', vaciarCarrito);
     DOMbotonPagar.addEventListener('click', pagarCarrito);
 
+    
+    fetch('./api.json')
+    .then((response) => response.json())
+    .then((json) => {
+        json.map(el => {
+            baseDeDatos.push(el);
+        })
+        renderizarProductos();
+    
+    })
+    .catch((e) => {console.log('ERROR:', e)}); 
 
 
     cargaCarritoLS();
-    renderizarProductos();
     renderizarCarrito();
 
 
