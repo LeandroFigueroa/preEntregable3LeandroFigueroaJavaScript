@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     window.location.href = "./index.html",
                 )
+                
                 carrito = [];
                 renderizarCarrito();
                 localStorage.clear();
@@ -239,8 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Cancelado',
-                    'Su pedido aun sigue en pie:)',
+                    'Listo',
+                    'Puede continuar con su pedido',
                     'success'
                 )
             }
