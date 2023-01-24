@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ) {
                 swalWithBootstrapButtons.fire(
                     'Listo',
-                    'Puede continuar con su pedido',
+                    'Puede continuar con su pedido.',
                     'success'
                 )
             }
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
              {  
                 swalWithBootstrapButtons.fire(
                     'Pedido eliminado!',
-                    'Su pedido a sido eliminado',
+                    'Su pedido a sido eliminado.',
                     'Succes'
                 )
                 
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ) {
                 swalWithBootstrapButtons.fire(
                     'Listo',
-                    'Puede continuar con su pedido',
+                    'Puede continuar con su pedido.',
                     'success'
                 )
             }
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                     'Pedido finalizado!',
-                    'Gracias por su compra',
+                    'Gracias por su compra.',
 
                 )
                 carrito = [];
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ) {
                 swalWithBootstrapButtons.fire(
                     'Listo',
-                    'Su pedido aun sigue en pie:)',
+                    'Su pedido aun sigue en pie.',
 
                 )
             }
