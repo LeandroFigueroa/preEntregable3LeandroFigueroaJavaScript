@@ -1,5 +1,10 @@
+
+
+
 // Base de datos //
 var baseDeDatos = [];
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     //  variables DOM
@@ -13,11 +18,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const DOMbotonPagar = document.querySelector('#boton-pagar');
     const miLocalStorage = window.localStorage;
 
-    // Productos a partir de la base de datos
+    // Promesa agregada en forma de deolay para carga de menu
+    const pedirProductos = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => resolve(baseDeDatos), 3000);
+            Swal.fire({
+                title: 'Cargando menú...',
+                html: 'Please wait...',
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                timer:3000,
+                didOpen: () => {
+                  Swal.showLoading()
+                }
+                
+            })
+        })
 
+    }
+
+    pedirProductos()
+        .then((res) => {
+            renderizarProductos(res);
+            renderizarCarrito(res);
+
+        })
+
+    // Productos a partir de la base de datos en .json
 
     function renderizarProductos() {
+
+
         baseDeDatos.forEach((info) => {
+
             // Estructura
             const miBase = document.createElement('div');
             miBase.classList.add('card', 'col-sm-4');
@@ -39,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Boton 
             const miBaseBoton = document.createElement('button');
             miBaseBoton.classList.add('btn', 'btn-primary');
-            miBaseBoton.textContent = '+';
+            miBaseBoton.textContent = 'Agregar';
             miBaseBoton.setAttribute('marcador', info.id);
             miBaseBoton.addEventListener('click', agregarCarrito);
             // Insertamos
@@ -51,6 +84,18 @@ document.addEventListener('DOMContentLoaded', () => {
             DOMitems.appendChild(miBase);
         });
     }
+
+    // Metodo fecth para leer el archivo .json
+    fetch('./data.json')
+        .then((response) => response.json())
+        .then((json) => {
+            json.map(el => {
+                baseDeDatos.push(el);
+            })
+
+
+        })
+        .catch((e) => { console.log('ERROR:', e) });
 
     // Agregar Carrito
 
@@ -72,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const numeroUnidadesItem = carrito.reduce((total, itemId) => {
                 return itemId === item ? total += 1 : total;
             }, 0);
+            
             // Base del carrito
             const miBase = document.createElement('li');
             miBase.classList.add('list-group-item', 'text-right', 'mx-2');
@@ -120,55 +166,118 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // borrar item
     function vaciarCarrito() {
-        carrito = [];
-        renderizarCarrito();
-        localStorage.clear();
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-success',
+              cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: 'Desea vaciar su pedido?',
+            text: "Si procede no podra recuperar su pedido!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, proceder',
+            cancelButtonText: 'No, volver a mi pedido!',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              swalWithBootstrapButtons.fire(
+                'Pedido eliminado!',
+                'Su pedido a sido eliminado',
+                'Succes'
+              )
+              carrito = [];
+              renderizarCarrito();
+              localStorage.clear();
+
+            } else if (
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'Cancelado',
+                'Su pedido aun sigue en pie:)',
+                'success'
+              )
+            }
+          })
+
     }
 
-
+    //Pagar carrito 
     function pagarCarrito() {
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Gracias por elegirnos',
-            showConfirmButton: false,
-            timer: 1500
-        })
 
-        carrito = [];
-        renderizarCarrito();
-        localStorage.clear();
+        
+
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-success',
+              cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: 'Desea confirmar su pedido?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, proceder',
+            cancelButtonText: 'No, volver a mi pedido!',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              swalWithBootstrapButtons.fire(
+                'Pedido finalizado!',
+                'Gracias por su compra',
+
+              )
+              carrito = [];
+              renderizarCarrito();
+              localStorage.clear();
+
+            } else if (
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'Cancelado',
+                'Su pedido aun sigue en pie:)',
+
+              )
+            }
+          })
+
+
 
     }
-
     function guardarCarritoLS() {
         miLocalStorage.setItem('carrito', JSON.stringify(carrito));
+
     }
 
     function cargaCarritoLS() {
         if (miLocalStorage.getItem('carrito') !== null) {
             carrito = JSON.parse(miLocalStorage.getItem('carrito'));
+
         }
+
+
     }
+
+
+
+
 
     // Eventos
     DOMbotonVaciar.addEventListener('click', vaciarCarrito);
     DOMbotonPagar.addEventListener('click', pagarCarrito);
 
-    
-    fetch('./api.json')
-    .then((response) => response.json())
-    .then((json) => {
-        json.map(el => {
-            baseDeDatos.push(el);
-        })
-        renderizarProductos();
-    
-    })
-    .catch((e) => {console.log('ERROR:', e)}); 
 
 
     cargaCarritoLS();
+    renderizarProductos();
     renderizarCarrito();
 
 
