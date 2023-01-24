@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="./img/americano.jpg" type="image/x-icon">
     <title>PreEntregable3LeandroFigueroa</title>
@@ -14,27 +15,30 @@
 
 <body>
 
+    <body class="text-center">
 
-    <div class="container">
-        <div class="row">
-            <!-- elementos por JSON -->
-            <main id="items" class="col-sm-8 row"></main>
-            <!-- carrito pedido -->
-            <aside class="col-sm-4">
-                <h2>Tu pedido</h2>
-                <!-- Elementos del carrito pedido-->
-                <ul id="carrito" class="list-group"></ul>
-                <hr>
-                <!-- precio total -->
-                <p class="text-right">Total: <span id="total"></span>&dollar;</p>
-                <button id="boton-vaciar" class="btn btn-danger">Vaciar</button>
-                <button id="boton-pagar" class="btn btn-normal">Pagar</button>
-               
-            </aside>
+        <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+          <header class="masthead mb-auto">
+            <div class="inner">
+            </div>
+          </header>
+    
+          <main role="main" class="inner cover">
+            <h1 class="cover-heading">Joe's coffee</h1>
+            <p class="lead">Gracias por elegir Joe's coffee, por favor continue para realizar un pedido. </p>
+            <p class="lead">
+              <a href="./compra.html" class="btn btn-lg btn-secondary">Realizar pedido</a>
+            </p>
+          </main>
+    
+          <footer class="mastfoot mt-auto">
+            <div class="inner">
+              <p>Copyrigth 2023, by Leandro Figueroa. <a href="https://github.com/LeandroFigueroa/preEntregable3LeandroFigueroaJavaScript">My repo in github</a>.</p>
+            </div>
+          </footer>
         </div>
-    </div>
-
-    <script src="./index.js"></script>
+    
+   
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

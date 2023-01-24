@@ -1,6 +1,3 @@
-
-
-
 // Base de datos //
 var baseDeDatos = [];
 
@@ -15,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const DOMcarrito = document.querySelector('#carrito');
     const DOMtotal = document.querySelector('#total');
     const DOMbotonVaciar = document.querySelector('#boton-vaciar');
+    const DOMbotonVaciar2 = document.querySelector('#boton-vaciar2');
     const DOMbotonPagar = document.querySelector('#boton-pagar');
     const miLocalStorage = window.localStorage;
 
@@ -27,11 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 html: 'Please wait...',
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                timer:3000,
+                timer: 3000,
                 didOpen: () => {
-                  Swal.showLoading()
+                    Swal.showLoading()
                 }
-                
+
             })
         })
 
@@ -117,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const numeroUnidadesItem = carrito.reduce((total, itemId) => {
                 return itemId === item ? total += 1 : total;
             }, 0);
-            
+
             // Base del carrito
             const miBase = document.createElement('li');
             miBase.classList.add('list-group-item', 'text-right', 'mx-2');
@@ -147,9 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         renderizarCarrito();
         guardarCarritoLS();
-
-
-
     }
 
     // Suma de precios del carrito
@@ -163,18 +158,63 @@ document.addEventListener('DOMContentLoaded', () => {
             return total + miItem[0].precio;
         }, 0).toFixed(2);
     }
+// Salir de la app y volver al menu
 
+    function vaciarCarrito2() {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Desea salir de su pedido',
+            text: "Si procede no podra recuperar su pedido!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, salir',
+            cancelButtonText: 'No, deseo seguir en mi pedido!',
+            reverseButtons: true,
+            
+           
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                    'Gracias por elegirnos',
+                    'Vuelva pronto',
+                    'Success',
+                    
+                    window.location.href = "./index.html",
+                )
+                carrito = [];
+                renderizarCarrito();
+                localStorage.clear();
+                
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Puede continuar con su pedido',
+                    'success'
+                )
+            }
+        })
+
+    }
     // borrar item
     function vaciarCarrito() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-              confirmButton: 'btn btn-success',
-              cancelButton: 'btn btn-danger'
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
             },
             buttonsStyling: false
-          })
-          
-          swalWithBootstrapButtons.fire({
+        })
+
+        swalWithBootstrapButtons.fire({
             title: 'Desea vaciar su pedido?',
             text: "Si procede no podra recuperar su pedido!",
             icon: 'warning',
@@ -182,72 +222,71 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmButtonText: 'Si, proceder',
             cancelButtonText: 'No, volver a mi pedido!',
             reverseButtons: true
-          }).then((result) => {
-            if (result.isConfirmed) {
-              swalWithBootstrapButtons.fire(
-                'Pedido eliminado!',
-                'Su pedido a sido eliminado',
-                'Succes'
-              )
-              carrito = [];
-              renderizarCarrito();
-              localStorage.clear();
-
+        }).then((result) => {
+            if (result.isConfirmed)
+             {  
+                swalWithBootstrapButtons.fire(
+                    'Pedido eliminado!',
+                    'Su pedido a sido eliminado',
+                    'Succes'
+                )
+                
+                carrito = [];
+                renderizarCarrito();
+                localStorage.clear();
+                
             } else if (
-              result.dismiss === Swal.DismissReason.cancel
+                result.dismiss === Swal.DismissReason.cancel
             ) {
-              swalWithBootstrapButtons.fire(
-                'Cancelado',
-                'Su pedido aun sigue en pie:)',
-                'success'
-              )
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Su pedido aun sigue en pie:)',
+                    'success'
+                )
             }
-          })
+        })
 
     }
 
+
     //Pagar carrito 
     function pagarCarrito() {
-
-        
-
-
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-              confirmButton: 'btn btn-success',
-              cancelButton: 'btn btn-danger'
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
             },
             buttonsStyling: false
-          })
-          
-          swalWithBootstrapButtons.fire({
+        })
+
+        swalWithBootstrapButtons.fire({
             title: 'Desea confirmar su pedido?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Si, proceder',
             cancelButtonText: 'No, volver a mi pedido!',
             reverseButtons: true
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              swalWithBootstrapButtons.fire(
-                'Pedido finalizado!',
-                'Gracias por su compra',
+                swalWithBootstrapButtons.fire(
+                    'Pedido finalizado!',
+                    'Gracias por su compra',
 
-              )
-              carrito = [];
-              renderizarCarrito();
-              localStorage.clear();
+                )
+                carrito = [];
+                renderizarCarrito();
+                localStorage.clear();
 
             } else if (
-              result.dismiss === Swal.DismissReason.cancel
+                result.dismiss === Swal.DismissReason.cancel
             ) {
-              swalWithBootstrapButtons.fire(
-                'Cancelado',
-                'Su pedido aun sigue en pie:)',
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Su pedido aun sigue en pie:)',
 
-              )
+                )
             }
-          })
+        })
 
 
 
@@ -273,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Eventos
     DOMbotonVaciar.addEventListener('click', vaciarCarrito);
     DOMbotonPagar.addEventListener('click', pagarCarrito);
-
+    DOMbotonVaciar2.addEventListener('click', vaciarCarrito2);
 
 
     cargaCarritoLS();
