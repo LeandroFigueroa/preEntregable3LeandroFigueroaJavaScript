@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Cancelado',
+                    'Listo',
                     'Puede continuar con su pedido',
                     'success'
                 )
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Cancelado',
+                    'Listo',
                     'Su pedido aun sigue en pie:)',
 
                 )
